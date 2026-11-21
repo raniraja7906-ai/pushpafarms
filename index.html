@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pushpa Dairy | Order Fresh Dairy | Cash on Delivery</title>
+<meta name="description" content="Pushpa Dairy - Fresh milk, paneer, ghee, butter delivered Cash on Delivery to your village.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#FB923C;
+    --primary-dark:#EA580C;
+    --bg:#F7F5F0;
+    --card:#FFFFFF;
+    --text:#1F2933;
+    --muted:#6B7280;
+    --line:#E5E7EB;
+    --success:#16A34A;
+    --cart:#111827;
+    --radius:16px;
+    --shadow:0 8px 24px rgba(0,0,0,0.08);
+    --header-h:60px;
+    --bottom-h:78px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16px;}
+  body{overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+  header{position:sticky;top:0;z-index:140;background:var(--card);border-bottom:1px solid var(--line);height:var(--header-h);}
+  .wrap{width:100%;padding:0 12px;margin:0 auto;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);padding:6px 0 0 0;}
+  .loc{display:flex;align-items:center;gap:8;font-size:14px;font-weight:700;color:var(--text);background:#FFF7EE;border:1px solid #FCD5B7;border-radius:10px;padding:4px 10px;cursor:pointer;}
+  .loc .pin{width:16px;height:16px;fill:#92400E;}
+  .search{flex:1;margin:0 10px;height:40px;display:flex;align-items:center;background:#FFFFFF;border:1px solid var(--line);border-radius:10px;padding:0 10px;overflow:hidden;}
+  .search svg{width:20px;height:20px;fill:var(--muted);flex-shrink:0;}
+  .search input{border:none;outline:none;width:100%;font-size:14px;font-weight:500;color:var(--text);background:transparent;}
+  .cartbtn{position:relative;width:40px;height:40px;background:#F3F4F6;border-radius:50%;display:grid;place-items:center;cursor:pointer;}
+  .cartbtn svg{width:22px;height:22px;fill:var(--cart);}
+  .badge{position:absolute;top:6px;right:4px;width:16px;height:16px;background:var(--primary);color:#fff;font-size:11px;font-weight:800;border-radius:50%;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.2);}
+
+  .brand{background:#FEF3E7;border:1px solid #FCD5B7;border-radius:14px;padding:14px 16px 12px;margin:12px;display:flex;align-items:center;gap:12px;}
+  .brand img.bicon{width:44px;height:44px;border-radius:10px;object-fit:cover;background:#fff;}
+  .brand .btxt{flex:1;}
+  .brand .btxt .k{font-weight:800;font-size:17px;letter-spacing:-0.2px;color:#92400E;}
+  .brand .btxt .v{font-size:13px;color:#92400E;margin-top:2px;}
+  .brand .arrow{width:28px;height:28px;background:#fff;border-radius:8px;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+
+  .sec{margin:0 12px 10px;}
+  .sech{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+  .sech h2{font-size:17px;font-weight:800;color:var(--text);margin:0;}
+  .sech a{font-size:13px;font-weight:700;color:var(--primary);text-decoration:none;}
+  .cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
+  .cats::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;width:72px;padding:8px 6px;border-radius:12px;background:#fff;border:1px solid var(--line);cursor:pointer;transition:transform .1s,border-color .2s,box-shadow .2s;}
+  .chip:active{transform:scale(.95);}
+  .chip.active{border-color:var(--primary);background:#FFF7EE;box-shadow:0 4px 12px rgba(251,146,60,0.15);}
+  .chip .ic{width:40px;height:40px;border-radius:10px;object-fit:cover;background:#F3F4F6;}
+  .chip span{font-size:12px;font-weight:700;color:var(--text);line-height:1.15;}
+  .chip.active span{color:var(--primary-dark);}
+
+  .banners{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;margin:0 12px;}
+  .banners::-webkit-scrollbar{display:none;}
+  .banner{flex:0 0 auto;width:252px;height:142px;border-radius:16px;overflow:hidden;position:relative;cursor:pointer;background:#E5E7EB;}
+  .banner img{width:100%;height:100%;object-fit:cover;display:block;}
+  .banner .tag{position:absolute;bottom:10px;left:10px;right:10px;background:linear-gradient(transparent,#000 60%);color:#fff;font-weight:800;font-size:15px;padding:8px;border-radius:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .product-photo{height:156px;width:100%;position:relative;overflow:hidden;background:#F3F4F6;}
+  .card .product-photo>img:first-child{width:100%;height:100%;object-fit:cover;display:block;}
+  .card .product-photo .product-mark{position:absolute;right:7px;bottom:7px;width:54px;height:54px;object-fit:contain;background:rgba(255,255,255,.94);border:2px solid #fff;border-radius:50%;padding:2px;box-shadow:0 2px 8px rgba(0,0,0,.22);}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 12px 90px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .06s,box-shadow .2s;position:relative;}
+  .card:active{transform:scale(.99);box-shadow:var(--shadow);}
+  .card img{width:100%;height:156px;object-fit:cover;background:#F3F4F6;display:block;}
+  .card .info{padding:9px 10px 6px;display:flex;flex-direction:column;gap:3px;flex:1;}
+  .card .name{font-size:14px;font-weight:700;color:var(--text);line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .card .unit{font-size:12.5px;color:var(--muted);font-weight:600;}
+  .card .price{display:flex;align-items:baseline;gap:6px;margin-top:4px;}
+  .card .cur{font-size:18px;font-weight:800;color:var(--text);}
+  .card .mrp{font-size:12.5px;color:var(--muted);text-decoration:line-through;font-weight:600;}
+  .card .off{font-size:12px;color:var(--success);font-weight:800;margin-left:3px;}
+  .cta{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-top:1px solid var(--line);background:#fff;}
+  .add{background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:13px;padding:6px 12px;cursor:pointer;box-shadow:0 2px 6px rgba(251,146,60,0.25);transition:background .15s;}
+  .add:active{background:var(--primary-dark);}
+  .step{display:flex;align-items:center;gap:6px;}
+  .step .qbtn{width:28px;height:28px;border:1px solid var(--line);background:#fff;border-radius:8px;font-weight:800;font-size:16px;color:var(--text);cursor:pointer;display:grid;place-items:center;line-height:1;}
+  .step .qbtn:active{background:#F3F4F6;}
+  .step .qty{font-weight:800;font-size:14px;color:var(--text);min-width:20px;text-align:center;}
+  .row{position:relative;}
+  .row .remove{position:absolute;top:6px;right:8px;background:#fee2e2;border:none;border-radius:6px;color:#dc2626;font-weight:800;font-size:12px;padding:2px 8px;cursor:pointer;display:none;}
+  .row .add{width:100%;padding:7px 0;font-size:14px;}
+  .empty{grid-column:1/-1;text-align:center;padding:40px 12px;color:var(--muted);}
+  .empty .eic{width:56px;height:56px;border-radius:50%;background:#F3F4F6;margin:0 auto 12px;display:grid;place-items:center;color:var(--muted);font-size:26px;}
+
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .cart{position:fixed;right:0;top:0;bottom:0;width:100%;max-width:420px;background:#fff;z-index:210;transform:translateX(100%);transition:transform .3s cubic-bezier(.2,0,0,1);box-shadow:-12px 0 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;}
+  .cart.open{transform:translateX(0);}
+  .cart .ch{height:var(--header-h);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#fff;}
+  .cart .ch .t{font-size:17px;font-weight:800;}
+  .cart .ch .close{background:#F3F4F6;border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:grid;place-items:center;font-size:20px;line-height:1;color:var(--muted);}
+  .cartlist{flex:1;overflow-y:auto;padding:12px;}
+  .cart-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:center;}
+  .cart-item img{width:64px;height:64px;border-radius:10px;object-fit:cover;background:#F3F4F6;flex-shrink:0;}
+  .cart-item .d{flex:1;min-width:0;}
+  .cart-item .dn{font-size:14px;font-weight:700;color:var(--text);line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cart-item .du{font-size:12px;color:var(--muted);margin-top:2px;}
+  .cart-item .r{display:flex;align-items:center;flex-direction:column;gap:6px;}
+  .cart-item .rp{font-weight:800;font-size:14px;color:var(--text);}
+  .cart-item .step{margin-top:2px;}
+  .cartfoot{border-top:1px solid var(--line);background:#fff;padding:14px 16px;}
+  .cartfoot .tot{display:flex;justify-content:space-between;font-size:15px;font-weight:800;margin-bottom:8px;}
+  .cartfoot .tot .l{color:var(--muted);}
+  .checkout{width:100%;background:var(--cart);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;padding:12px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+  .checkout:active{background:#000;}
+  .emptycart{text-align:center;padding:40px 16px;color:var(--muted);}
+  .emptycart .eic{width:64px;height:64px;border-radius:50%;background:#F3F4F6;margin:0 auto 14px;display:grid;place-items:center;font-size:30px;}
+
+  .bottom{position:fixed;bottom:0;left:0;right:0;height:var(--bottom-h);background:#fff;border-top:1px solid var(--line);z-index:150;display:none;}
+  .bottom.show{display:flex;}
+  .bottom .bar{width:100%;max-width:500px;margin:0 auto;padding:0 12px;display:flex;align-items:center;justify-content:space-between;height:100%;}
+  .bottom .left{display:flex;align-items:center;gap:8;}
+  .bottom .count{font-weight:800;font-size:14px;}
+  .bottom .total{font-weight:800;font-size:15px;}
+  .bottom .checkout{background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:14px;padding:8px 16px;cursor:pointer;box-shadow:0 4px 12px rgba(251,146,60,0.3);}
+  .bottom .checkout:active{background:var(--primary-dark);}
+  @media(min-width:640px){
+    body{max-width:500px;margin:0 auto;min-height:100vh;box-shadow:0 0 30px rgba(0,0,0,0.08);}
+    .bottom{display:none;}
+    .cart{max-width:340px;}
+  }
+
+  .village-modal{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center;}
+  .village-modal.open{opacity:1;pointer-events:auto;}
+  .village-panel{background:#fff;border-radius:16px;width:90%;max-width:400px;max-height:80vh;overflow-y:auto;transform:translateY(20px);transition:transform .25s;}
+  .village-modal.open .village-panel{transform:translateY(0);}
+  .village-panel .vh{padding:16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+  .village-panel .vh .t{font-size:17px;font-weight:800;}
+  .village-panel .vh .close{background:#F3F4F6;border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:grid;place-items-center;font-size:20px;line-height:1;}
+  .village-list{padding:10px;}
+  .village-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer;background:#fff;}
+  .village-item:active{background:#FFF7EE;}
+  .village-item .name{font-weight:700;font-size:15px;}
+  .village-item .sel{width:22px;height:22px;border:2px solid var(--line);border-radius:50%;display:grid;place-items-center;}
+  .village-item .sel.on{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:800;font-size:11px;}
+
+  .checkout-modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:320;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center;}
+  .checkout-modal.open{opacity:1;pointer-events:auto;}
+  .checkout-panel{background:#fff;border-radius:16px;width:92%;max-width:430px;max-height:92vh;overflow-y:auto;transform:translateY(30px);transition:transform .25s;}
+  .checkout-modal.open .checkout-panel{transform:translateY(0);}
+  .checkout-panel .ch{padding:16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+  .checkout-panel .ch .t{font-size:17px;font-weight:800;}
+  .checkout-panel .ch .close{background:#F3F4F6;border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:grid;place-items:center;font-size:20px;line-height:1;}
+  .checkout-panel .body{padding:16px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;}
+  .field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff;}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--primary);}
+  .map-wrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0;background:#E5E7EB;aspect-ratio:16/9;}
+  .map-note{font-size:12.5px;color:var(--muted);margin-top:6px;}
+  .btn-primary{width:100%;background:var(--primary);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;padding:12px;cursor:pointer;box-shadow:0 4px 12px rgba(251,146,60,0.3);margin-top:8px;}
+  .btn-primary:active{background:var(--primary-dark);}
+  .cod-note{font-size:13px;color:var(--success);font-weight:700;margin-top:6px;text-align:center;}
+
+  .owner-dash{position:fixed;inset:0;background:#fff;z-index:340;transform:translateX(100%);transition:transform .3s;box-shadow:-12px 0 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;}
+  .owner-dash.open{transform:translateX(0);}
+  .owner-dash .oh{height:var(--header-h);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#fff;}
+  .owner-dash .oh .t{font-size:17px;font-weight:800;}
+  .owner-dash .oh .close{background:#F3F4F6;border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:grid;place-items:center;font-size:20px;line-height:1;}
+  .owner-dash .olist{flex:1;overflow-y:auto;padding:12px;}
+  .order-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;}
+  .order-card .ohd{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:6px;}
+  .order-card .status{background:#FEF3E7;color:#92400E;font-size:11px;font-weight:800;padding:2px 8px;border-radius:8px;}
+  .order-card .meta{font-size:12.5px;color:var(--muted);margin-bottom:4px;}
+  .order-card .items{font-size:13px;color:var(--text);margin-bottom:4px;}
+  .order-card .total{font-weight:800;font-size:14px;color:var(--primary);}
+  .order-btn{position:fixed;top:100px;right:12px;z-index:130;background:#92400E;color:#fff;border:none;border-radius:10px;font-weight:800;font-size:13px;padding:8px 12px;cursor:pointer;box-shadow:0 4px 12px rgba(146,64,14,0.3);display:flex;align-items:center;gap:6px;}
+  .order-btn:active{background:#78350f;}
+
+  .toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,0);background:#111827;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;z-index:400;opacity:0;transition:opacity .25s;pointer-events:none;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<button class="order-btn" id="ownerBtn">📋 Orders</button>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="loc" id="villageChip" title="Select your village">
+        <svg class="pin" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.25 0-2-.75-2-2s.75-2 2-2 2 .75 2 2-.75 2-2 2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+        <span id="villageName">Select Village</span>
+      </div>
+      <div class="search"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="text" id="search" placeholder="Search milk, paneer, butter…"></div>
+      <div class="cartbtn" id="cartBtn" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 110 4 2 2 0 010-4z" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="badge" id="badge">0</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="brand" id="brandHero">
+  <img class="bicon" src="" alt="Pushpa Dairy">
+  <div class="btxt"><div class="k">Pushpa Dairy</div><div class="v">Cash on Delivery &bull; Village delivery</div></div>
+  <div class="arrow" id="viewCart"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#92400E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7-7-7"/><circle cx="12" cy="12" r="4"/></svg></div>
+</div>
+
+<div class="sec">
+  <div class="sech"><h2>Categories</h2><a id="viewAll">View all &rarr;</a></div>
+  <div class="cats" id="cats"></div>
+</div>
+
+<div class="banners" id="banners"></div>
+
+<div class="sec">
+  <div class="sech"><h2 id="sectionTitle">Dairy Essentials</h2></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="cart" id="cart">
+  <div class="ch"><div class="t">Your Cart</div><button class="close" id="closeCart">&times;</button></div>
+  <div class="cartlist" id="cartList"></div>
+  <div class="cartfoot">
+    <div class="tot"><span class="l">Total (COD)</span><span class="v" id="cartTotal">₹0</span></div>
+    <button class="checkout" id="checkoutBtn">Place Order</button>
+  </div>
+</div>
+
+<div class="bottom" id="bottom">
+  <div class="bar">
+    <div class="left"><span class="count" id="bottomCount">0 items</span><span class="total" id="bottomTotal">₹0</span></div>
+    <button class="checkout" id="bottomCheckout">Place Order &rarr;</button>
+  </div>
+</div>
+
+<div class="village-modal" id="villageModal">
+  <div class="village-panel">
+    <div class="vh"><div class="t">Select Your Village</div><button class="close" id="vClose">&times;</button></div>
+    <div class="village-list" id="villageList"></div>
+  </div>
+</div>
+
+<div class="checkout-modal" id="checkoutModal">
+  <div class="checkout-panel">
+    <div class="ch"><div class="t">Place Order</div><button class="close" id="cClose">&times;</button></div>
+    <div class="body">
+      <div class="cod-note">Payment: Cash on Delivery</div>
+      <div class="field"><label>Your Name</label><input type="text" id="oName" placeholder="e.g. Ramesh Kumar"></div>
+      <div class="field"><label>Phone Number</label><input type="tel" id="oPhone" placeholder="e.g. 9876543210"></div>
+      <div class="field"><label>Village</label><select id="oVillage"></select></div>
+      <div class="field"><label>Address / House No.</label><input type="text" id="oAddress" placeholder="Near chowk, house no…"></div>
+      <div class="field"><label>Pin Code</label><input type="text" id="oPincode" placeholder="e.g. 271001"></div>
+      <div class="field"><label>Location on Google Map</label>
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBO0mxod8L6Ljg9G4S-MrZfXp0xH8sOZcU&q=Nadwa,Bihar&zoom=13" allowfullscreen></iframe>
+        </div>
+        <div class="map-note">Tip: Open Google Maps, find your house, copy the link and paste below.</div>
+      </div>
+      <div class="field"><label>Google Maps Link (optional)</label><input type="text" id="oMap" placeholder="https://maps.google.com/?q=..."></div>
+      <button class="btn-primary" id="confirmOrder">Confirm Cash on Delivery Order</button>
+    </div>
+  </div>
+</div>
+
+<div class="owner-dash" id="ownerDash">
+  <div class="oh"><div class="t">Pushpa Dairy Orders</div><button class="close" id="oClose">&times;</button></div>
+  <div class="olist" id="orderList"></div>
+</div>
+
+<script>
+const IMG = {"milk": "pushpa_dairy_assets/p1.webp", "butter": "pushpa_dairy_assets/p3.webp", "paneer": "pushpa_dairy_assets/p5.webp", "curd": "pushpa_dairy_assets/p8.webp", "ghee": "pushpa_dairy_assets/p4.webp", "cheese": "pushpa_dairy_assets/p6.webp", "mozzarella": "pushpa_dairy_assets/p7.webp", "yogurt": "pushpa_dairy_assets/p9.webp", "icecream": "pushpa_dairy_assets/p10.webp", "lassi": "pushpa_dairy_assets/p11.webp", "cream": "pushpa_dairy_assets/p12.webp", "milkshake": "pushpa_dairy_assets/p13.webp", "chaas": "pushpa_dairy_assets/p14.webp", "banner1": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQwIiBmaWxsPSJDUkVBTSIgcng9IjEyIiBzdHJva2U9IiM4QjQ1MTMiIHN0cm9rZS13aWR0aD0iMiIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI5MCIgcng9IjUwIiByeT0iNDAiIGZpbGw9IiNENEFGMzciIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjIwJSBPRkY8L3RleHQ+PHRleHQgeD0iMTAwIiB5PSIxMjIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjQTA1MjJEIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5NaWxrICZhbXA7IEdoZWU8L3RleHQ+PC9zdmg+", "banner2": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRkZGREU3IiByeD0iMTIiIHN0cm9rZT0iIzJFN0QzMiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTU1IDk2IEw3NSA3NiBMOTUgMTAwIEwxMTUgNzAgTDEzNSA5NiBaIiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMyRTdEMzIiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjEwMCIgeT0iMTA4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMyRTdEMzIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZyZXNoIFBhbmVlcjwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyOCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkp1c3QgQXJyaXZlZDwvdGV4dD4PC9zdmc+", "banner3": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSIyMCIgeT0iMzAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjNFNUY1IiByeD0iMTIiIHN0cm9rZT0iI0Y0OEZCMSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTEwMCA1MCBMODAgMTEwIEwxMjAgMTEwIFoiIGZpbGw9IiNBMDUyMkQiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iNTgiIHJ4PSIyNCIgcnk9IjE4IiBmaWxsPSIjRjQ4RkIxIi8+PHRleHQgeD0iMTAwIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0EwNTIyRCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q29vbGVyczwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyNCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZyb20g4oK5MjU8L3RleHQ+PC9zdmc+", "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MiIgZmlsbD0iQ1JFQU0iIHN0cm9rZT0iIzhCNDUxMyIgc3Ryb2tlLXdpZHRoPSIzIi8+PGVsbGlwc2UgY3g9IjUwIiBjeT0iNDQiIHJ4PSIyMCIgcnk9IjE2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiM4QjQ1MTMiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMCA0NCBRNTAgMjQgNzAgNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyQTVGNSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48dGV4dCB4PSI1MCIgeT0iNjgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzJFN0QzMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UFVTSFBBPC90ZXh0Pjx0ZXh0IHg9IjUwIiB5PSI4MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRBSVJZPC90ZXh0PjxjaXJjbGUgY3g9IjgyIiBjeT0iODIiIHI9IjgiIGZpbGw9IiMyRTdEMzIiLz48dGV4dCB4PSI4MiIgeT0iODYiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjciIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UEQ8L3RleHQ+PC9zdmc+", "CAT_Milk & Beverages": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iOTIiIHJ4PSIzNCIgcnk9IjMwIiBmaWxsPSJXSElURSIvPjxyZWN0IHg9IjY2IiB5PSI2MCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjY0IiBmaWxsPSJXSElURSIgcng9IjgiLz48cGF0aCBkPSJNNzAgOTIgUTeMDAgNjQgMTMwIDkyIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MkE1RjUiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+", "CAT_Butter & Ghee": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2MiIgeT0iODAiIHdpZHRoPSI3NiIgaGVpZ2h0PSI0NCIgZmlsbD0iR09MRCIgcng9IjYiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iOTIiIHJ4PSIzNCIgcnk9IjIyIiBmaWxsPSIjRjRBNDYwIi8+PHBhdGggZD0iTTEwMCA5MiBMMTE2IDEwOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==", "CAT_Paneer & Cheese": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI1NSIgeT0iOTYiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjEiIHJ4PSIyIi8+PHJlY3QgeD0iOTciIHk9Ijk2IiB3aWR0aD0iMjgiIGhlaWdodD0iMjYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzhCNDUxMyIgc3Ryb2tlLXdpZHRoPSIxIiByeD0iMiIvPjxwYXRoIGQ9Ik03MCA3MiBMMTAwIDU4IEwxMzAgNzIgWiIgZmlsbD0iI0ZGRjE3NiIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjIiLz4PC9zdmc+", "CAT_Curd & Yogurt": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTA0IiByeD0iNDAiIHJ5PSIzMiIgZmlsbD0iI0ZGRkZGRiIvPjxwYXRoIGQ9Ik03MCAxMDggUTeMDAgOTYgMTMwIDEwOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSI3MCIgeT0iMTI0IiB3aWR0aD0iNjAiIGhlaWdodD0iMTAiIGZpbGw9IiM4QjQ1MTMiLz4PC9zdmc+", "CAT_Ice Cream": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMTAwIDU2IEw2MiAxMDYgTDEzOCAxMDYgWiIgZmlsbD0iI0EwNTIyRCIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI2NCIgcng9IjI2IiByeT0iMjAiIGZpbGw9IiNGNDhGQjEiLz4PC9zdmc+", "CAT_Fresh Cream": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZGRjdFNiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEI0NTEzIiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI3MCIgeT0iNjQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI1NiIgZmlsbD0iI0ZGRkZGRiIgcng9IjEwIiBzdHJva2U9IiM4QjQ1MTMiIHN0cm9rZS13aWR0aD0iMiIvPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI1NCIgcng9IjI4IiByeT0iMTIiIGZpbGw9IiNGRkY5QzQiLz4PC9zdmc+"};
+const CATEGORIES = ["Milk & Beverages", "Butter & Ghee", "Paneer & Cheese", "Curd & Yogurt", "Ice Cream", "Fresh Cream"];
+const VILLAGES = ["Rahshu Janobi Patti", "Nadwa", "Nadwa Bishun Pur", "Jaura Bazar", "Rahshu Bazar", "Puraina", "Rahshu Sumali Patti", "Dhaurahara"];
+const WHATSAPP_OWNER = '919999999999';
+const PRODUCTS = [{"id": "p1", "name": "Amul Gold Toned Milk", "cat": "Milk & Beverages", "unit": "1 Litre", "price": 58, "mrp": 62, "img": "pushpa_dairy_assets/p1.webp", "badge": "Best seller"}, {"id": "p2", "name": "Mother Dairy Full Cream Milk", "cat": "Milk & Beverages", "unit": "500 ml", "price": 30, "mrp": 32, "img": "pushpa_dairy_assets/p15.webp"}, {"id": "p3", "name": "Amul Butter", "cat": "Butter & Ghee", "unit": "100 g", "price": 47, "mrp": 50, "img": "pushpa_dairy_assets/p3.webp"}, {"id": "p4", "name": "Amul Desi Ghee", "cat": "Butter & Ghee", "unit": "500 ml", "price": 450, "mrp": 480, "img": "pushpa_dairy_assets/p4.webp", "badge": "Popular"}, {"id": "p5", "name": "Fresh Paneer (Cottage Cheese)", "cat": "Paneer & Cheese", "unit": "200 g", "price": 90, "mrp": 100, "img": "pushpa_dairy_assets/p5.webp"}, {"id": "p6", "name": "Amul Processed Cheese Block", "cat": "Paneer & Cheese", "unit": "200 g", "price": 140, "mrp": 150, "img": "pushpa_dairy_assets/p6.webp"}, {"id": "p7", "name": "Mozzarella Cheese", "cat": "Paneer & Cheese", "unit": "200 g", "price": 165, "mrp": 180, "img": "pushpa_dairy_assets/p7.webp"}, {"id": "p8", "name": "Homemade Curd (Dahi)", "cat": "Curd & Yogurt", "unit": "400 g", "price": 40, "mrp": 45, "img": "pushpa_dairy_assets/p8.webp"}, {"id": "p9", "name": "Greek Yogurt", "cat": "Curd & Yogurt", "unit": "170 g", "price": 55, "mrp": 60, "img": "pushpa_dairy_assets/p9.webp"}, {"id": "p10", "name": "Amul Ice Cream Cup", "cat": "Ice Cream", "unit": "100 ml", "price": 35, "mrp": 40, "img": "pushpa_dairy_assets/p10.webp", "badge": "Summer special"}, {"id": "p11", "name": "Mango Lassi", "cat": "Milk & Beverages", "unit": "250 ml", "price": 40, "mrp": 45, "img": "pushpa_dairy_assets/p11.webp"}, {"id": "p12", "name": "Fresh Cream", "cat": "Fresh Cream", "unit": "250 ml", "price": 75, "mrp": 85, "img": "pushpa_dairy_assets/p12.webp"}, {"id": "p13", "name": "Amul Cold Coffee", "cat": "Milk & Beverages", "unit": "200 ml", "price": 45, "mrp": 50, "img": "pushpa_dairy_assets/p13.webp"}, {"id": "p14", "name": "Chaas (Buttermilk)", "cat": "Milk & Beverages", "unit": "300 ml", "price": 25, "mrp": 30, "img": "pushpa_dairy_assets/p14.webp"}, {"id": "p15", "name": "Amul Lite Milk", "cat": "Milk & Beverages", "unit": "1 Litre", "price": 52, "mrp": 56, "img": "pushpa_dairy_assets/p1.webp"}];
+
+let cart = {};
+let activeCat = null;
+let selectedVillage = localStorage.getItem('pushpa_village') || null;
+let orders = JSON.parse(localStorage.getItem('pushpa_orders') || '[]');
+
+function b64(s){return 'data:image/svg+xml;base64,'+btoa(s);}
+function showToast(msg){
+  const el=document.createElement('div');
+  el.className='toast';
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.classList.add('show'),10);
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),300);},2200);
+}
+function renderCats(){
+  const box=document.getElementById('cats');
+  box.innerHTML='';
+  CATEGORIES.forEach(c=>{
+    const chip=document.createElement('div');
+    chip.className='chip'+(activeCat===c?' active':'');
+    chip.innerHTML='<img class="ic" src="'+IMG['CAT_'+c]+'" alt="'+c+'"><span>'+c+'</span>';
+    chip.onclick=()=>{activeCat=activeCat===c?null:c;renderCats();renderProducts();};
+    box.appendChild(chip);
+  });
+}
+function renderBanners(){
+  const box=document.getElementById('banners');
+  box.innerHTML='';
+  const bans=[
+    {img:IMG.banner1,text:'Flat 20% OFF on Milk & Ghee'},
+    {img:IMG.banner2,text:'New: Fresh Paneer just arrived'},
+    {img:IMG.banner3,text:'Summer coolers from ₹25'}
+  ];
+  bans.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='banner';
+    el.innerHTML='<img src="'+b.img+'" alt="banner"><div class="tag">'+b.text+'</div>';
+    el.onclick=()=>{activeCat=null;renderCats();renderProducts();window.scrollTo({top:document.getElementById('grid').offsetTop-120,behavior:'smooth'});};
+    box.appendChild(el);
+  });
+}
+function renderProducts(){
+  const grid=document.getElementById('grid');
+  const title=document.getElementById('sectionTitle');
+  const list = activeCat ? PRODUCTS.filter(p=>p.cat===activeCat) : PRODUCTS;
+  title.textContent = activeCat?activeCat:'Dairy Essentials';
+  grid.innerHTML='';
+  if(list.length===0){
+    grid.innerHTML='<div class="empty"><div class="eic">🥛</div><div style="font-weight:700;margin-bottom:6px;">No products</div><div style="font-size:14px;">Try another category</div></div>';
+    return;
+  }
+  list.forEach(p=>{
+    const inCart = cart[p.id]||0;
+    const card=document.createElement('div');
+    card.className='card';
+    const save = p.price<p.mrp?'<span class="off">Save ₹'+(p.mrp-p.price)+'</span>':'';
+    card.innerHTML='<div class="product-photo"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><img class="product-mark" src="pushpa_dairy_assets/pushpa_farms_logo.png" alt="Pushpa Farms"></div><div class="info"><div class="name">'+p.name+'</div><div class="unit">'+p.unit+'</div><div class="price"><span class="cur">₹'+p.price+'</span><span class="mrp">₹'+p.mrp+'</span>'+save+'</div></div><div class="cta row" id="row-'+p.id+'"><button class="add" id="add-'+p.id+'">ADD</button></div>';
+    const addBtn=card.querySelector('#add-'+p.id);
+    const row=card.querySelector('#row-'+p.id);
+    if(inCart>0){
+      row.innerHTML='<button class="qbtn" data-id="'+p.id+'" data-dir="-">−</button><span class="qty">'+inCart+'</span><button class="qbtn" data-id="'+p.id+'" data-dir="+">+</button><button class="remove" data-id="'+p.id+'">Remove</button>';
+    }
+    addBtn.onclick=(e)=>{e.stopPropagation();addItem(p.id);};
+    row.querySelectorAll('.qbtn').forEach(b=>{b.onclick=(e)=>{e.stopPropagation();changeQty(p.id,b.dataset.dir);};});
+    const rem=row.querySelector('.remove');
+    if(rem) rem.onclick=(e)=>{e.stopPropagation();removeItem(p.id);};
+    grid.appendChild(card);
+  });
+  updateCartUI();
+}
+function renderProductList(list){
+  const grid=document.getElementById('grid');
+  if(list.length===0){
+    grid.innerHTML='<div class="empty"><div class="eic">🔍</div><div style="font-weight:700;margin-bottom:6px;">Nothing found</div><div style="font-size:14px;">Try searching for milk, paneer or butter</div></div>';
+    return;
+  }
+  list.forEach(p=>{
+    const inCart = cart[p.id]||0;
+    const card=document.createElement('div');
+    card.className='card';
+    const save = p.price<p.mrp?'<span class="off">Save ₹'+(p.mrp-p.price)+'</span>':'';
+    card.innerHTML='<div class="product-photo"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><img class="product-mark" src="pushpa_dairy_assets/pushpa_farms_logo.png" alt="Pushpa Farms"></div><div class="info"><div class="name">'+p.name+'</div><div class="unit">'+p.unit+'</div><div class="price"><span class="cur">₹'+p.price+'</span><span class="mrp">₹'+p.mrp+'</span>'+save+'</div></div><div class="cta row" id="row-'+p.id+'"><button class="add" id="add-'+p.id+'">ADD</button></div>';
+    const addBtn=card.querySelector('#add-'+p.id);
+    const row=card.querySelector('#row-'+p.id);
+    if(inCart>0){
+      row.innerHTML='<button class="qbtn" data-id="'+p.id+'" data-dir="-">−</button><span class="qty">'+inCart+'</span><button class="qbtn" data-id="'+p.id+'" data-dir="+">+</button><button class="remove" data-id="'+p.id+'">Remove</button>';
+    }
+    addBtn.onclick=(e)=>{e.stopPropagation();addItem(p.id);};
+    row.querySelectorAll('.qbtn').forEach(b=>{b.onclick=(e)=>{e.stopPropagation();changeQty(p.id,b.dataset.dir);};});
+    const rem=row.querySelector('.remove');
+    if(rem) rem.onclick=(e)=>{e.stopPropagation();removeItem(p.id);};
+    grid.appendChild(card);
+  });
+}
+function addItem(id){cart[id]=(cart[id]||0)+1;renderProducts();updateCartUI();}
+function changeQty(id,dir){
+  if(dir==='+')cart[id]=(cart[id]||0)+1;
+  else{cart[id]--;if(cart[id]<=0)delete cart[id];}
+  renderProducts();updateCartUI();
+}
+function removeItem(id){delete cart[id];renderProducts();updateCartUI();}
+function cartItems(){return Object.entries(cart).map(([id,q])=>({...PRODUCTS.find(p=>p.id===id),qty:q}));}
+function cartTotal(){return cartItems().reduce((s,i)=>s+i.price*i.qty,0);}
+function cartCount(){return Object.values(cart).reduce((a,b)=>a+b,0);}
+function updateCartUI(){
+  const n=cartCount();
+  document.getElementById('badge').textContent=n;
+  document.getElementById('bottomCount').textContent=n+' items';
+  document.getElementById('bottomTotal').textContent='₹'+cartTotal();
+  const bottom=document.getElementById('bottom');
+  const cb=document.getElementById('bottomCheckout');
+  if(n>0){
+    bottom.classList.add('show');
+    cb.textContent='Place Order (₹'+cartTotal()+') &rarr;';
+  } else bottom.classList.remove('show');
+  const list=document.getElementById('cartList');
+  const items=cartItems();
+  document.getElementById('cartTotal').textContent='₹'+cartTotal();
+  if(items.length===0){
+    list.innerHTML='<div class="emptycart"><div class="eic">🛒</div><div style="font-weight:700;margin-bottom:6px;">Your cart is empty</div><div style="font-size:14px;">Add some fresh dairy from Pushpa Dairy</div></div>';
+  } else {
+    list.innerHTML='';
+    items.forEach(i=>{
+      const el=document.createElement('div');
+      el.className='cart-item';
+      el.innerHTML='<img src="'+i.img+'" alt="'+i.name+'"><div class="d"><div class="dn">'+i.name+'</div><div class="du">'+i.unit+' • ₹'+i.price+' each</div></div><div class="r"><div class="rp">₹'+(i.price*i.qty)+'</div><div class="step"><button class="qbtn" data-id="'+i.id+'" data-dir="-">−</button><span class="qty">'+i.qty+'</span><button class="qbtn" data-id="'+i.id+'" data-dir="+">+</button></div></div>';
+      el.querySelectorAll('.qbtn').forEach(b=>{b.onclick=(e)=>{e.stopPropagation();changeQty(i.id,b.dataset.dir);};});
+      list.appendChild(el);
+    });
+  }
+}
+function openCart(){document.getElementById('overlay').classList.add('open');document.getElementById('cart').classList.add('open');updateCartUI();}
+function closeCart(){document.getElementById('overlay').classList.remove('open');document.getElementById('cart').classList.remove('open');}
+function renderVillages(){
+  const box=document.getElementById('villageList');
+  box.innerHTML='';
+  const selSel=document.getElementById('oVillage');
+  selSel.innerHTML='';
+  VILLAGES.forEach(v=>{
+    const item=document.createElement('div');
+    item.className='village-item'+(selectedVillage===v?' selected':'');
+    item.innerHTML='<div class="name">'+v+'</div><div class="sel'+(selectedVillage===v?' on':'')+'">'+(selectedVillage===v?'✓':'')+'</div>';
+    item.onclick=()=>{selectedVillage=v;localStorage.setItem('pushpa_village',v);renderVillages();updateVillageChip();};
+    box.appendChild(item);
+    const o=document.createElement('option');
+    o.value=v;
+    o.textContent=v;
+    selSel.appendChild(o);
+  });
+}
+function updateVillageChip(){
+  const chip=document.getElementById('villageName');
+  const btn=document.getElementById('villageChip');
+  if(selectedVillage){
+    chip.textContent=selectedVillage;
+    btn.style.background='#DCFCE7';
+    btn.style.borderColor='#86EFAC';
+    chip.style.color='#166534';
+  } else {
+    chip.textContent='Select Village';
+    btn.style.background='#FFF7EE';
+    btn.style.borderColor='#FCD5B7';
+    chip.style.color='#92400E';
+  }
+}
+function openCheckout(){
+  if(cartCount()===0){showToast('Add some items first');return;}
+  if(!selectedVillage){showToast('Please select your village first');document.getElementById('villageChip').click();return;}
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open');}
+function buildWhatsAppMessage() {
+  const name = document.getElementById('oName').value.trim();
+  const phone = document.getElementById('oPhone').value.trim();
+  const village = document.getElementById('oVillage').value || selectedVillage;
+  const address = document.getElementById('oAddress').value.trim();
+  const pincode = document.getElementById('oPincode').value.trim();
+  const maplink = document.getElementById('oMap').value.trim();
+
+  const items = cartItems();
+  const ts = new Date().toLocaleString('en-IN');
+
+  let msg = `*🥛 New Pushpa Farms Order (COD)*\n
+
+👤 *Customer:* ${name}
+📞 *Phone:* ${phone}
+🏘 *Village:* ${village}
+🏠 *Address:* ${address}
+📮 *Pincode:* ${pincode}
+📍 *Location:* ${maplink || 'Not provided'}
+⏰ *Time:* ${ts}
+
+*Items:*
+`;
+
+  items.forEach(i => {
+    msg += `• ${i.name} (${i.unit}) x ${i.qty} = ₹${i.price * i.qty}\n`;
+  });
+
+  msg += `
+💰 *Total:* ₹${cartTotal()}
+💳 *Payment:* Cash on Delivery`;
+
+  return msg;
+}
+function sendOrder(){
+  const name=document.getElementById('oName').value.trim();
+  const phone=document.getElementById('oPhone').value.trim();
+  const village=document.getElementById('oVillage').value || selectedVillage;
+  const address=document.getElementById('oAddress').value.trim();
+  const pincode=document.getElementById('oPincode').value.trim();
+  const maplink=document.getElementById('oMap').value.trim();
+  if(!name||!phone||!address){showToast('Please fill name, phone and address');return;}
+  const cleanPhone=phone.replace(/[\\s-]/g,'');
+  if(!/^[6-9]\\d{9}$/.test(cleanPhone)){showToast('Please enter a valid 10-digit mobile number');return;}
+  if(!village){showToast('Please select your village');return;}
+  const order={id:'PD'+Date.now(),name,phone:cleanPhone,village,address,pincode,maplink,items:cartItems(),total:cartTotal(),time:new Date().toISOString(),status:'WhatsApp draft opened - awaiting Send'};
+  orders.unshift(order);
+  try { localStorage.setItem('pushpa_orders',JSON.stringify(orders)); } catch(err) { console.warn('This device could not save the local order copy.',err); }
+  const url = 'https://wa.me/918887940857?text=' + encodeURIComponent(buildWhatsAppMessage());
+  const whatsappWindow=window.open(url,'_blank');
+  if(!whatsappWindow){showToast('Allow pop-ups to open WhatsApp, then try again');return;}
+  cart={};
+  renderProducts();
+  updateCartUI();
+  closeCheckout();
+  showToast('Order sent to Pushpa Farms via WhatsApp!');
+  setTimeout(()=>renderOrders(),500);
+}
+function renderOrders(){
+  const box=document.getElementById('orderList');
+  box.innerHTML='';
+  if(orders.length===0){
+    box.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);">No orders yet.</div>';
+    return;
+  }
+  orders.forEach(o=>{
+    const el=document.createElement('div');
+    el.className='order-card';
+    const date=new Date(o.time).toLocaleString('en-IN');
+    let mapLinkHtml = o.maplink?' • <a href="'+o.maplink+'" target="_blank" style="color:var(--primary);font-size:12px;">Open Location</a>':'';
+    el.innerHTML='<div class="ohd"><span>#'+o.id.slice(-6)+'</span><span class="status">'+o.status+'</span></div><div class="meta">👤 '+o.name+' • 📞 '+o.phone+'</div><div class="meta">🏘 '+o.village+' • 🏠 '+o.address+(o.pincode?' • 📮 '+o.pincode:'')+'</div><div class="meta">⏰ '+date+'</div><div class="items">'+o.items.map(i=>i.name+' x'+i.qty).join(', ')+'</div><div class="total">Total: ₹'+o.total+' • COD'+mapLinkHtml+'</div>';
+    box.appendChild(el);
+  });
+}
+document.getElementById('cartBtn').onclick=openCart;
+document.getElementById('viewCart').onclick=openCart;
+document.getElementById('closeCart').onclick=closeCart;
+document.getElementById('overlay').onclick=closeCart;
+document.getElementById('checkoutBtn').onclick=openCheckout;
+document.getElementById('bottomCheckout').onclick=openCheckout;
+document.getElementById('cClose').onclick=closeCheckout;
+document.getElementById('confirmOrder').onclick=sendOrder;
+document.getElementById('viewAll').onclick=()=>{activeCat=null;renderCats();renderProducts();window.scrollTo({top:document.getElementById('grid').offsetTop-120,behavior:'smooth'});};
+document.getElementById('villageChip').onclick=()=>{document.getElementById('villageModal').classList.add('open');renderVillages();};
+document.getElementById('vClose').onclick=()=>{document.getElementById('villageModal').classList.remove('open');};
+document.getElementById('search').addEventListener('input',(e)=>{
+  const q=e.target.value.toLowerCase().trim();
+  activeCat=null;
+  renderCats();
+  renderProducts();
+  const title=document.getElementById('sectionTitle');
+  const grid=document.getElementById('grid');
+  const filtered=q?PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)):PRODUCTS;
+  title.textContent=q?'Search results for "'+e.target.value+'"':'Dairy Essentials';
+  grid.innerHTML='';
+  renderProductList(filtered);
+  updateCartUI();
+});
+document.getElementById('ownerBtn').onclick=()=>{document.getElementById('ownerDash').classList.add('open');renderOrders();};
+document.getElementById('oClose').onclick=()=>{document.getElementById('ownerDash').classList.remove('open');};
+document.getElementById('brandHero').querySelector('img').src='pushpa_dairy_assets/pushpa_farms_logo.png';
+updateVillageChip();
+renderVillages();
+renderCats();
+renderBanners();
+renderProducts();
+
+</script>
+</body>
+</html>
